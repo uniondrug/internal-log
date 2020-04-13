@@ -1,0 +1,17 @@
+#
+# ignore directories & files
+#
+
+.idea
+.DS_Store
+log/
+!log/.gitkeep
+tmp/
+!tmp/.gitkeep
+vendor
+
+composer.lock
+console
+Dockerfile
+dockerfile.sh
+server
