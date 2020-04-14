@@ -1,5 +1,43 @@
 #内审中心日志
 
+### how to do
+
+> 如何使用`V3`版本SDK
+
+1. 修改`composer.json`文件, 选择`1.x`版本
+    ```text
+    {
+        .
+        .
+        "require" : {
+            .
+            .
+            "uniondrug/internal-log" : "^1.0",
+            .
+            .
+        }
+    }
+    ```
+1. 执行`composer update`更新依赖版
+1. 修改`config/app.php`应用
+     ```text
+        return [
+            'default' => [
+                .
+                .
+                .
+                'providers' => [
+                    .
+                    .
+                    .
+                    \Uniondrug\InternalLog\InternalLogProvider::class
+                ]
+            ]
+        ];
+    ```
+1. 在`ServiceTrait`中添加`$internalLog`的`@property`定义
+
+### how to run
 #相关接口：
 
 1. `setModule()`(必须)
