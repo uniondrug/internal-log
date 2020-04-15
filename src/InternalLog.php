@@ -9,6 +9,7 @@ namespace Uniondrug\InternalLog;
 
 use Uniondrug\Framework\Services\Service;
 use Uniondrug\InternalLog\Tasks\LogTask;
+use Uniondrug\Framework\Request;
 
 /**
  * Class InternalLog
@@ -211,7 +212,11 @@ class InternalLog extends Service
      */
     public function setIp()
     {
-        $this->ip = $this->request->getClientAddress();
+        /**
+         * @var Request $res
+         */
+        $res = $this->di->getShared("request");
+        $this->ip = $res->getClientAddress();
         $this->params['ip'] = $this->ip;
     }
 
