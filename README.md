@@ -1,6 +1,7 @@
 #内审中心日志
 
 ### how to do
+
 1. 修改`composer.json`文件, 选择`1.x`版本
     ```text
     {
@@ -9,13 +10,16 @@
         "require" : {
             .
             .
+            "uniondrug/token-auth-middleware" : "^2.0",
             "uniondrug/internal-log" : "^1.0",
             .
             .
         }
     }
     ```
+    
 1. 执行`composer update`更新依赖版
+
 1. 修改`config/app.php`应用
      ```text
         return [
@@ -32,6 +36,29 @@
             ]
         ];
     ```
+    
+1. 添加`config/internalLog.php`
+     ```text
+        <?php
+        return [
+            "default" => [
+                "logUrl" => "http://java.auditlog.service.dev.uniondrug.info/log/send"
+            ],
+            "development" => [
+                "logUrl" => "http://java.auditlog.service.dev.uniondrug.info/log/send"
+            ],
+            "testing" => [
+                "logUrl" => "http://java.auditlog.service.turboradio.cn/log/send"
+            ],
+            "release" => [
+                "logUrl" => "http://java.auditlog.service.uniondrug.net/log/send"
+            ],
+            "production" => [
+                "logUrl" => "http://java.auditlog.service.uniondrug.cn/log/send"
+            ]
+        ];
+     ```
+     
 1. 在`ServiceTrait`中添加`$internalLog`的`@property`定义
 
 ### how to run
