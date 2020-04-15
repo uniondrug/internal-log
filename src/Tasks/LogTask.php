@@ -13,29 +13,6 @@ use Uniondrug\Phar\Server\Tasks\XTask;
 
 class LogTask extends XTask
 {
-    public static $_logParams = [
-        "default" => [
-            "logUrl" => "http://java.auditlog.service.dev.uniondrug.info/log/send",
-            "logTimeout" => 30,
-        ],
-        "development" => [
-            "logUrl" => "http://java.auditlog.service.dev.uniondrug.info/log/send",
-            "logTimeout" => 30,
-        ],
-        "testing" => [
-            "logUrl" => "http://java.auditlog.service.turboradio.cn/log/send",
-            "logTimeout" => 30,
-        ],
-        "release" => [
-            "logUrl" => "http://java.auditlog.service.uniondrug.net/log/send",
-            "logTimeout" => 30,
-        ],
-        "production" => [
-            "logUrl" => "http://java.auditlog.service.uniondrug.cn/log/send",
-            "logTimeout" => 30,
-        ]
-    ];
-
     /**
      * @return bool|mixed
      * @throws \Throwable
@@ -47,10 +24,9 @@ class LogTask extends XTask
          */
         try {
             $container = Di::getDefault();
-            $logUrl = $this->getLogUrl($container->environment());
-            $timeout = $this->getLogTimeout($container->environment());
+            //日志推送地址
+            $logUrl = $container->getConfig()->path("internalLog.logUrl");
             $container->getHttpClient()->post($logUrl, [
-                'timeout' => $timeout,
                 'headers' => [
                     'content-type' => 'application/json'
                 ],
@@ -60,31 +36,5 @@ class LogTask extends XTask
         } catch(\Throwable $e) {
             throw $e;
         }
-    }
-
-    /**
-     * 日志推送地址
-     * @param $environment
-     * @return string
-     */
-    public function getLogUrl($environment = "default")
-    {
-        if (isset(self::$_logParams[$environment]['logUrl'])) {
-            return self::$_logParams[$environment]['logUrl'];
-        }
-        return "";
-    }
-
-    /**
-     * 日志发送超时时间
-     * @param $environment
-     * @return string
-     */
-    public function getLogTimeout($environment = "default")
-    {
-        if (isset(self::$_logParams[$environment]['logTimeout'])) {
-            return self::$_logParams[$environment]['logTimeout'];
-        }
-        return "";
     }
 }
